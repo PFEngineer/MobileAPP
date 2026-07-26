@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:design_system/design_system.dart';
 
-import 'showcase/ds_gallery.dart';
+import 'home/home_screen.dart';
 
 void main() {
   runApp(const MobileApp());
@@ -17,7 +17,7 @@ class MobileApp extends StatelessWidget {
       title: 'Turbi Mobile',
       debugShowCheckedModeBanner: false,
       theme: DsTheme.light(),
-      home: const DsGallery(),
+      home: const HomeScreen(),
     );
   }
 }
