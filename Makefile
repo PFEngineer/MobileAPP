@@ -1,4 +1,4 @@
-# Turbi mobile — Makefile
+# Mobile — Makefile
 #
 # Dois apps rodáveis:
 #   - App principal ...... este diretório (mobile_app)
@@ -141,7 +141,7 @@ boot-android: ## Sobe o emulador Android (ver ANDROID_EMULATOR)
 
 .PHONY: help
 help: ## Mostra esta ajuda
-	@echo "Turbi mobile — alvos disponíveis:"
+	@echo "Mobile — alvos disponíveis:"
 	@echo ""
 	@awk 'BEGIN {FS = ":.*## "} /^[a-zA-Z0-9_-]+:.*## / {printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 	@echo ""

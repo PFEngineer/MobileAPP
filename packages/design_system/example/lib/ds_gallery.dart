@@ -131,7 +131,7 @@ class _DsGalleryState extends State<DsGallery> {
           DsTextField(
             controller: _controller,
             label: 'E-mail',
-            hint: 'voce@turbi.com.br',
+            hint: 'voce@email.com',
             prefixIcon: DsIcons.search,
             helperText: 'Usamos seu e-mail apenas para login.',
             keyboardType: TextInputType.emailAddress,
@@ -209,7 +209,7 @@ class _DsGalleryState extends State<DsGallery> {
             children: <Widget>[
               const DsAvatar(initials: 'PF', showStatus: true),
               const SizedBox(width: DsSpacing.md),
-              const DsAvatar(initials: 'TB', size: DsAvatarSize.lg),
+              const DsAvatar(initials: 'AC', size: DsAvatarSize.lg),
               const SizedBox(width: DsSpacing.lg),
               DsBadge.count(12, child: const DsAvatar(initials: 'MK')),
             ],
@@ -239,10 +239,10 @@ class _DsGalleryState extends State<DsGallery> {
               children: <Widget>[
                 Row(
                   children: const <Widget>[
-                    DsAvatar(initials: 'TB'),
+                    DsAvatar(initials: 'AC'),
                     SizedBox(width: DsSpacing.md),
                     Expanded(
-                      child: Text('Turbi Aluguel',
+                      child: Text('Acme Inc.',
                           style: DsTypography.heading3),
                     ),
                     DsTag(label: 'Premium', tone: DsTone.primary),

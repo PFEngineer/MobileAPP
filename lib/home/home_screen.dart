@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: DsAppBar(
-        title: 'Turbi',
+        title: 'Início',
         actions: <Widget>[
           IconButton(
             icon: Icon(DsIcons.bell, color: ds.textSecondary),
@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
             Text('Bem-vindo', style: DsTypography.heading1),
             const SizedBox(height: DsSpacing.xs),
             Text(
-              'App base do Turbi mobile.',
+              'App base mobile.',
               style:
                   DsTypography.bodyLarge.copyWith(color: ds.textSecondary),
             ),
@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                 children: <Widget>[
                   Row(
                     children: const <Widget>[
-                      DsAvatar(initials: 'TB'),
+                      DsAvatar(initials: 'AC'),
                       SizedBox(width: DsSpacing.md),
                       Expanded(
                         child: Text('Sua conta', style: DsTypography.heading3),

@@ -1,13 +1,13 @@
 name: design_system
 description: >
-  Turbi mobile design system — atomic-design component library and design
+  Mobile design system — atomic-design component library and design
   tokens, generated from the Figma foundations. Standalone package with no
   dependency on the host app so it can be extracted into its own repository.
 version: 0.1.0
 publish_to: 'none'
 
 environment:
-  sdk: ^3.12.2
+  sdk: ">=3.11.0 <4.0.0"
 
 # IMPORTANT: this package MUST NOT depend on `mobile_app` (or any app code).
 # The dependency arrow is always app -> design_system, never the reverse, so the

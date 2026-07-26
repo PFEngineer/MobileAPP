@@ -14,7 +14,7 @@ class MobileApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Turbi Mobile',
+      title: 'Mobile App',
       debugShowCheckedModeBanner: false,
       theme: DsTheme.light(),
       home: const HomeScreen(),

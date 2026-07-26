@@ -1,6 +1,6 @@
 # design_system
 
-Turbi mobile design system — a standalone Flutter package with design **tokens**
+Mobile design system — a standalone Flutter package with design **tokens**
 and an **atomic-design** component library, generated from the Figma
 `📐 Foundations` (INVESTAI design system, file `ICHnXdD2RpuUNQlrbPyi2o`).
 
@@ -22,9 +22,12 @@ GitHub repository later with zero code changes. To extract:
    ```yaml
    design_system:
      git:
-       url: git@github.com:turbi/design_system.git
+       url: git@github.com:your-org/design_system.git
        ref: v0.1.0
    ```
+
+See [COMPONENTS.md](COMPONENTS.md) for the full catalog of every token and
+component with its properties and variants.
 
 ## Structure (atomic design)
 

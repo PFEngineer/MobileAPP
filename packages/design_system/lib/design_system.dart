@@ -1,4 +1,4 @@
-/// Turbi mobile design system.
+/// Mobile design system.
 ///
 /// Atomic-design component library plus design tokens generated from the Figma
 /// foundations. This package has **no dependency on the host app** — the
