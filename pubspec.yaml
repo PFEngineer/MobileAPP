@@ -35,6 +35,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
+  # Design system — local, isolated package (atomic design + tokens from Figma).
+  # Referenced by path so it can be extracted to its own repo later by swapping
+  # this for a `git:` dependency. The arrow is app -> design_system only.
+  design_system:
+    path: packages/design_system
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
