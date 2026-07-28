@@ -49,3 +49,4 @@ export 'src/molecules/ds_list_item.dart';
 export 'src/organisms/ds_app_bar.dart';
 export 'src/organisms/ds_tabs.dart';
 export 'src/organisms/ds_bottom_navigation.dart';
+export 'src/organisms/ds_empty_state.dart';

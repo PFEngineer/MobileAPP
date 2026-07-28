@@ -41,6 +41,12 @@ dependencies:
   design_system:
     path: packages/design_system
 
+  # Analytics — local, isolated package wrapping Amplitude with a Google-style
+  # event API (screen_view, click). Same extractable-package pattern as
+  # design_system: the arrow is app -> analytics only.
+  analytics:
+    path: packages/analytics
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

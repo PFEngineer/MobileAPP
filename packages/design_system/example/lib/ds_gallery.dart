@@ -44,6 +44,7 @@ class _DsGalleryState extends State<DsGallery> {
     _Entry('Top App Bar', _AppBarDemo()),
     _Entry('Tabs', _TabsDemo()),
     _Entry('Bottom Navigation', _BottomNavDemo()),
+    _Entry('Empty State', _EmptyStateDemo()),
   ];
 
   @override
@@ -510,6 +511,25 @@ class _TabsDemoState extends State<_TabsDemo> {
       tabs: const <String>['Ativas', 'Histórico', 'Canceladas'],
       selectedIndex: _index,
       onChanged: (i) => setState(() => _index = i),
+    );
+  }
+}
+
+/// Illustrative "Carteira — sem produto" empty state, shown on its own.
+class _EmptyStateDemo extends StatelessWidget {
+  const _EmptyStateDemo();
+
+  @override
+  Widget build(BuildContext context) {
+    return DsEmptyState(
+      title: 'Nenhum BDR encontrado',
+      description:
+          'Você ainda não possui BDRs na sua carteira ou não há itens que '
+          'correspondam aos filtros.',
+      primaryActionLabel: 'Explorar BDRs',
+      onPrimaryAction: () {},
+      secondaryActionLabel: 'Limpar filtros',
+      onSecondaryAction: () {},
     );
   }
 }

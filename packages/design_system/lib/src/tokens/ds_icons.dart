@@ -14,6 +14,7 @@ abstract final class DsIcons {
   static const IconData bell = Icons.notifications_outlined;
   static const IconData search = Icons.search;
   static const IconData plus = Icons.add;
+  static const IconData plusCircle = Icons.add_circle_outline;
   static const IconData minus = Icons.remove;
   static const IconData arrowRight = Icons.arrow_forward;
   static const IconData edit = Icons.edit_outlined;

@@ -73,6 +73,32 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
+    testWidgets('empty state renders title, actions and hides absent ones',
+        (tester) async {
+      var explored = false;
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: DsTheme.light(),
+          home: Scaffold(
+            body: DsEmptyState(
+              title: 'Nenhum BDR encontrado',
+              description: 'Você ainda não possui BDRs na sua carteira.',
+              primaryActionLabel: 'Explorar BDRs',
+              onPrimaryAction: () => explored = true,
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('Nenhum BDR encontrado'), findsOneWidget);
+      expect(find.text('Explorar BDRs'), findsOneWidget);
+      // No secondary action was supplied, so none is rendered.
+      expect(find.text('Limpar filtros'), findsNothing);
+
+      await tester.tap(find.text('Explorar BDRs'));
+      expect(explored, isTrue);
+    });
+
     testWidgets('tag and badge build', (tester) async {
       await tester.pumpWidget(
         MaterialApp(

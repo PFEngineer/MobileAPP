@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../tokens/ds_radius.dart';
 import '../tokens/ds_spacing.dart';
@@ -26,6 +27,7 @@ class DsTextField extends StatelessWidget {
     this.readOnly = false,
     this.keyboardType,
     this.textInputAction,
+    this.inputFormatters,
     this.maxLines = 1,
     this.focusNode,
     super.key,
@@ -46,6 +48,7 @@ class DsTextField extends StatelessWidget {
   final bool readOnly;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
+  final List<TextInputFormatter>? inputFormatters;
   final int maxLines;
   final FocusNode? focusNode;
 
@@ -83,6 +86,7 @@ class DsTextField extends StatelessWidget {
           obscureText: obscureText,
           keyboardType: keyboardType,
           textInputAction: textInputAction,
+          inputFormatters: inputFormatters,
           maxLines: obscureText ? 1 : maxLines,
           onChanged: onChanged,
           onSubmitted: onSubmitted,
