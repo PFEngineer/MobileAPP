@@ -43,3 +43,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# SSH deploy keys (nunca commitar)
+release_key
+release_key.pub

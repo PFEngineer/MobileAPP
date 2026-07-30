@@ -47,6 +47,17 @@ dependencies:
   analytics:
     path: packages/analytics
 
+  # Observabilidade corporativa — pacote do monorepo mobile_core_platform
+  # (Facade OpenTelemetry sobre Sentry + Crashlytics), via git dependency numa
+  # tag publicada. Para dev local acoplado, troque pelo path:
+  #   core_telemetry:
+  #     path: ../mobile_core_platform/packages/core_telemetry
+  core_telemetry:
+    git:
+      url: git@gitlab.com:playbook-apps/mobile/mobile_core_platform.git
+      ref: core_telemetry-v0.1.0
+      path: packages/core_telemetry
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
