@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:analytics/analytics.dart';
+import 'package:mobile_app/core/analytics/analytics_service.dart';
 import 'package:design_system/design_system.dart';
 
 import 'app/di/app_dependencies.dart';
@@ -22,6 +22,8 @@ const String _sentryDsn = String.fromEnvironment(
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AnalyticsService.init(_amplitudeApiKey);
+  // LGPD: core_analytics é opt-out por padrão. TODO(LGPD): mover para a tela de consentimento real.
+  AnalyticsService.setConsent(true);
   await AppTelemetry.init(serviceVersion: '1.0.0', sentryDsn: _sentryDsn);
   AppTelemetry.info('app_start');
   // TODO(remover): smoke test — deve aparecer em Sentry → Issues em segundos.

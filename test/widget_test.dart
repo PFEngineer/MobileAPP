@@ -1,4 +1,4 @@
-import 'package:analytics/analytics.dart';
+import 'package:mobile_app/core/analytics/analytics_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

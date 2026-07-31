@@ -1,20 +1,16 @@
 # Mobile — Makefile
 #
-# Dois apps rodáveis:
-#   - App principal ...... este diretório (mobile_app)
-#   - Design System ...... packages/design_system/example (showcase do pacote)
+# App principal (mobile_app). O design_system agora vive no monorepo
+# mobile_core_platform (consumido via git dependency) — a showcase roda por lá.
 #
 # Exemplos:
 #   make run                # app principal (flutter escolhe o device)
 #   make run-ios            # app principal no simulador iOS
 #   make run-android        # app principal no emulador Android
-#   make run-ds-ios         # design system no simulador iOS
 #   make run DEVICE=<id>    # força um device específico (veja `make devices`)
 
 FLUTTER          ?= flutter
 APP_DIR          := .
-DS_DIR           := packages/design_system
-DS_EXAMPLE_DIR   := packages/design_system/example
 ANDROID_EMULATOR ?= Pixel_9a
 ADB              ?= $(HOME)/Library/Android/sdk/platform-tools/adb
 
@@ -68,45 +64,24 @@ run-android: ## App principal no emulador Android
 	$(call run_android,$(APP_DIR))
 
 # ===========================================================================
-# Design System (example app do pacote)
-# ===========================================================================
-
-.PHONY: run-ds run-ds-ios run-ds-android
-run-ds: ## Design system (flutter escolhe/pergunta o device)
-	cd $(DS_EXAMPLE_DIR) && $(FLUTTER) run $(if $(DEVICE),-d $(DEVICE),)
-
-run-ds-ios: ## Design system no simulador iOS
-	$(call run_ios,$(DS_EXAMPLE_DIR))
-
-run-ds-android: ## Design system no emulador Android
-	$(call run_android,$(DS_EXAMPLE_DIR))
-
-# ===========================================================================
-# Dependências, qualidade e testes (app + pacote + example)
+# Dependências, qualidade e testes
 # ===========================================================================
 
 .PHONY: get clean analyze format test
-get: ## flutter pub get em todos os pacotes
+get: ## flutter pub get
 	cd $(APP_DIR) && $(FLUTTER) pub get
-	cd $(DS_DIR) && $(FLUTTER) pub get
-	cd $(DS_EXAMPLE_DIR) && $(FLUTTER) pub get
 
-clean: ## flutter clean em todos os pacotes
+clean: ## flutter clean
 	cd $(APP_DIR) && $(FLUTTER) clean
-	cd $(DS_DIR) && $(FLUTTER) clean
-	cd $(DS_EXAMPLE_DIR) && $(FLUTTER) clean
 
-analyze: ## Análise estática (app cobre o pacote via path dep)
+analyze: ## Análise estática
 	cd $(APP_DIR) && $(FLUTTER) analyze
-	cd $(DS_DIR) && $(FLUTTER) analyze
 
 format: ## Formata o código Dart
-	dart format lib test $(DS_DIR)/lib $(DS_DIR)/test $(DS_EXAMPLE_DIR)/lib $(DS_EXAMPLE_DIR)/test
+	dart format lib test
 
-test: ## Roda os testes do app, do pacote e do example
+test: ## Roda os testes do app
 	cd $(APP_DIR) && $(FLUTTER) test
-	cd $(DS_DIR) && $(FLUTTER) test
-	cd $(DS_EXAMPLE_DIR) && $(FLUTTER) test
 
 # ===========================================================================
 # Builds de release

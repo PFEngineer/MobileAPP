@@ -17,13 +17,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.6.2"
-  analytics:
-    dependency: "direct main"
-    description:
-      path: "packages/analytics"
-      relative: true
-    source: path
-    version: "0.1.0"
   args:
     dependency: transitive
     description:
@@ -72,6 +65,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.1"
+  core_analytics:
+    dependency: "direct main"
+    description:
+      path: "packages/core_analytics"
+      ref: "core_analytics-v0.5.0"
+      resolved-ref: "938a6054082459a39624ca3efecf83c2adf77261"
+      url: "git@gitlab.com:playbook-apps/mobile/mobile_core_platform.git"
+    source: git
+    version: "0.5.0"
   core_telemetry:
     dependency: "direct main"
     description:
@@ -101,8 +103,10 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/design_system"
-      relative: true
-    source: path
+      ref: "design_system-v0.1.0"
+      resolved-ref: "5d4cccfbb45d4cb48c27bfbdf6626e3d22d20f5d"
+      url: "git@gitlab.com:playbook-apps/mobile/mobile_core_platform.git"
+    source: git
     version: "0.1.0"
   fake_async:
     dependency: transitive
@@ -128,6 +132,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.2"
+  firebase_analytics:
+    dependency: transitive
+    description:
+      name: firebase_analytics
+      sha256: "4f85b161772e1d54a66893ef131c0a44bd9e552efa78b33d5f4f60d2caa5c8a3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.6.0"
+  firebase_analytics_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_analytics_platform_interface
+      sha256: a44b6d1155ed5cae7641e3de7163111cfd9f6f6c954ca916dc6a3bdfa86bf845
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.4.3"
+  firebase_analytics_web:
+    dependency: transitive
+    description:
+      name: firebase_analytics_web
+      sha256: c7d1ed1f86ae64215757518af5576ff88341c8ce5741988c05cc3b2e07b0b273
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.10+16"
   firebase_core:
     dependency: transitive
     description:
