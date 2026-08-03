@@ -1,16 +1,22 @@
-import 'package:mobile_app/core/analytics/analytics_service.dart';
+import 'package:invest_app/core/analytics/analytics_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:mobile_app/app/di/app_dependencies.dart';
-import 'package:mobile_app/app/router/app_router.dart';
-import 'package:mobile_app/features/home/domain/entities/portfolio_summary.dart';
-import 'package:mobile_app/main.dart';
+import 'package:invest_app/app/di/app_dependencies.dart';
+import 'package:invest_app/app/router/app_router.dart';
+import 'package:invest_app/features/auth/data/datasources/auth_local_data_source.dart';
+import 'package:invest_app/features/home/domain/entities/portfolio_summary.dart';
+import 'package:invest_app/main.dart';
 
 void main() {
   setUpAll(AnalyticsService.disableForTesting);
 
-  Widget buildApp() => MobileApp(router: AppRouter(AppDependencies()));
+  // Injeta a fake local de auth para os testes não dependerem da Galena API.
+  Widget buildApp() => InvestApp(
+        router: AppRouter(
+          AppDependencies(authDataSource: const AuthLocalDataSource()),
+        ),
+      );
 
   /// The app opens on Login; sign in with a valid CPF to reach the shell.
   Future<void> logIn(WidgetTester tester) async {

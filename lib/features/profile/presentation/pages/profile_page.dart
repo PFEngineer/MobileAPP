@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:mobile_app/core/analytics/analytics_service.dart';
+import 'package:invest_app/core/analytics/analytics_service.dart';
 import 'package:design_system/design_system.dart';
 
 import '../../domain/entities/user_profile.dart';

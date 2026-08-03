@@ -1,12 +1,14 @@
 import '../../domain/entities/login_credentials.dart';
 import '../../domain/repositories/auth_repository.dart';
+import 'auth_data_source.dart';
 
 /// Fake auth backend until a real API exists. Accepts any structurally valid
 /// CPF with a password of at least 6 characters; everything else throws
 /// [AuthException].
-class AuthLocalDataSource {
+class AuthLocalDataSource implements AuthDataSource {
   const AuthLocalDataSource();
 
+  @override
   Future<void> authenticate(LoginCredentials credentials) async {
     await Future<void>.delayed(const Duration(milliseconds: 700));
     if (credentials.password.length < 6) {

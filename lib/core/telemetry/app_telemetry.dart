@@ -26,7 +26,7 @@ class AppTelemetry {
     if (_disabled) return;
     await _service.initialize(
       options: TelemetryOptions(
-        serviceName: 'mobile_app',
+        serviceName: 'invest_app',
         serviceVersion: serviceVersion,
         environment: 'prod',
         sentry: (sentryDsn == null || sentryDsn.isEmpty)
@@ -75,9 +75,15 @@ class AppTelemetry {
     Object error, {
     StackTrace? stackTrace,
     bool fatal = false,
+    Map<String, Object?>? attributes,
   }) {
     if (!_disabled) {
-      _service.recordError(error, stackTrace: stackTrace, fatal: fatal);
+      _service.recordError(
+        error,
+        stackTrace: stackTrace,
+        fatal: fatal,
+        attributes: attributes,
+      );
     }
   }
 

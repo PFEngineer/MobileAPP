@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:mobile_app/core/analytics/analytics_service.dart';
+import 'package:invest_app/core/analytics/analytics_service.dart';
 import 'package:design_system/design_system.dart';
 
 import '../../../../core/format/cpf_input_formatter.dart';

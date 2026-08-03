@@ -2,7 +2,9 @@ import '../../features/ai_assistant/data/datasources/assistant_local_data_source
 import '../../features/ai_assistant/data/repositories/assistant_repository_impl.dart';
 import '../../features/ai_assistant/domain/usecases/assistant_usecases.dart';
 import '../../features/ai_assistant/presentation/viewmodels/assistant_view_model.dart';
-import '../../features/auth/data/datasources/auth_local_data_source.dart';
+import '../../core/network/galena.dart';
+import '../../features/auth/data/datasources/auth_data_source.dart';
+import '../../features/auth/data/datasources/auth_remote_data_source.dart';
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
 import '../../features/auth/domain/usecases/login.dart';
 import '../../features/auth/presentation/viewmodels/login_view_model.dart';
@@ -45,7 +47,8 @@ import '../../features/simulator/presentation/viewmodels/simulator_view_model.da
 /// model for every feature. Swap a piece here (e.g. a real API data source)
 /// without touching the layers themselves.
 class AppDependencies {
-  AppDependencies() {
+  AppDependencies({AuthDataSource? authDataSource})
+      : _authDataSource = authDataSource ?? AuthRemoteDataSource(galenaAuthApi) {
     final portfolioRepository =
         const PortfolioRepositoryImpl(PortfolioLocalDataSource());
     homeViewModel = HomeViewModel(
@@ -98,8 +101,12 @@ class AppDependencies {
   late final ProfileViewModel profileViewModel;
 
   /// Pushed screens get a fresh view model per navigation.
+  /// Fonte de auth do composition root — Galena API em produção; testes injetam
+  /// a fake local via `AppDependencies(authDataSource: ...)`.
+  final AuthDataSource _authDataSource;
+
   LoginViewModel buildLoginViewModel() => LoginViewModel(
-        login: Login(const AuthRepositoryImpl(AuthLocalDataSource())),
+        login: Login(AuthRepositoryImpl(_authDataSource)),
       );
 
   EvolutionViewModel buildEvolutionViewModel() => EvolutionViewModel(

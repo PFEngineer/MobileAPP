@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:mobile_app/core/format/cpf.dart';
+import 'package:invest_app/core/format/cpf.dart';
 
 void main() {
   group('Cpf.format (mask)', () {

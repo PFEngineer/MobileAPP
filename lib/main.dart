@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:mobile_app/core/analytics/analytics_service.dart';
+import 'package:invest_app/core/analytics/analytics_service.dart';
 import 'package:design_system/design_system.dart';
 
 import 'app/di/app_dependencies.dart';
 import 'app/router/app_router.dart';
 import 'app/router/app_routes.dart';
+import 'core/network/galena.dart';
 import 'core/telemetry/app_telemetry.dart';
 
 // Amplitude ingestion key — public by design; move to an env var when you set up environments.
@@ -26,16 +27,13 @@ void main() async {
   AnalyticsService.setConsent(true);
   await AppTelemetry.init(serviceVersion: '1.0.0', sentryDsn: _sentryDsn);
   AppTelemetry.info('app_start');
-  // TODO(remover): smoke test — deve aparecer em Sentry → Issues em segundos.
-  AppTelemetry.recordError(
-    Exception('sentry smoke test'),
-    stackTrace: StackTrace.current,
-  );
-  runApp(MobileApp(router: AppRouter(AppDependencies())));
+  // Rede da Galena com sessão persistente (cookie jar em disco). Antes do DI.
+  await initGalenaNetwork();
+  runApp(InvestApp(router: AppRouter(AppDependencies())));
 }
 
-class MobileApp extends StatelessWidget {
-  const MobileApp({required this.router, super.key});
+class InvestApp extends StatelessWidget {
+  const InvestApp({required this.router, super.key});
 
   final AppRouter router;
 

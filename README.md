@@ -1,4 +1,4 @@
-# mobile_app
+# invest_app
 
 A new Flutter project.
 
