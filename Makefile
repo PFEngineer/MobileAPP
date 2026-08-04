@@ -3,31 +3,36 @@
 # App principal (invest_app). O design_system agora vive no monorepo
 # mobile_core_platform (consumido via git dependency) — a showcase roda por lá.
 #
-# O projeto exige um flavor de ambiente (hml/prd); os alvos base assumem hml.
+# O projeto exige um flavor de ambiente (hml/prd). Os alvos de run são sempre
+# por ambiente; os build-* base assumem hml.
+#
+# Rodar é sempre por ambiente + plataforma (hml/prd × ios/android).
 #
 # Exemplos:
-#   make run                # app principal em hml (flutter escolhe o device)
-#   make run-prd            # app principal em prd
-#   make run-ios            # app principal no simulador iOS (hml)
-#   make run-android        # app principal no emulador Android (hml)
-#   make run DEVICE=<id>    # força um device específico (veja `make devices`)
+#   make run-hml-ios              # HML no simulador iOS (sobe o simulador)
+#   make run-hml-android          # HML no emulador Android (sobe o emulador)
+#   make run-prd-ios              # PRD no simulador iOS
+#   make run-prd-android          # PRD no emulador Android
+#   make run-hml-ios DEVICE=<id>  # força um device específico (veja `make devices`)
 
 FLUTTER          ?= flutter
 APP_DIR          := .
 ANDROID_EMULATOR ?= Pixel_9a
 ADB              ?= $(HOME)/Library/Android/sdk/platform-tools/adb
 
-# Device explícito opcional: `make run-ios DEVICE=...` sobrepõe a auto-seleção.
+# Device explícito opcional: `make run-hml-ios DEVICE=...` sobrepõe a auto-seleção.
 DEVICE ?=
 
 # Ambiente (Galena API): FLAVOR seleciona o flavor Android / scheme iOS e
 # GALENA_ENV é passado ao Dart via --dart-define. O projeto EXIGE um flavor
-# (Android define flavorDimensions "env" com hml/prd e sem default), então os
-# alvos base assumem hml. Os alvos run-prd/build-*-prd sobrepõem para prd.
-# Use `make run FLAVOR=<f> GALENA_ENV=<e>` para combinar manualmente.
+# (Android define flavorDimensions "env" com hml/prd e sem default). Os alvos
+# run-{hml,prd}-* já fixam os dois por alvo; os build-* base assumem hml e os
+# build-*-prd sobrepõem para prd.
 FLAVOR     ?= hml
 GALENA_ENV ?= hml
-FLAVOR_ARGS := $(if $(FLAVOR),--flavor $(FLAVOR),) $(if $(GALENA_ENV),--dart-define=GALENA_ENV=$(GALENA_ENV),)
+# Recursivo (=) de propósito: os alvos de ambiente sobrepõem FLAVOR/GALENA_ENV
+# por alvo (target-specific), então FLAVOR_ARGS é reavaliado no momento do uso.
+FLAVOR_ARGS = $(if $(FLAVOR),--flavor $(FLAVOR),) $(if $(GALENA_ENV),--dart-define=GALENA_ENV=$(GALENA_ENV),)
 
 .DEFAULT_GOAL := help
 
@@ -36,11 +41,14 @@ FLAVOR_ARGS := $(if $(FLAVOR),--flavor $(FLAVOR),) $(if $(GALENA_ENV),--dart-def
 # ---------------------------------------------------------------------------
 
 # Boota (se preciso) um simulador iOS e roda o app nele.
+# Com DEVICE explícito (device já conectado) pula o boot do simulador.
 define run_ios
-	@echo "==> Garantindo um simulador iOS aberto..."
-	@open -a Simulator
-	@printf "==> Aguardando o simulador bootar"
-	@until xcrun simctl list devices booted | grep -q Booted; do printf "."; sleep 2; done; echo ""
+	@if [ -z "$(DEVICE)" ]; then \
+	   echo "==> Garantindo um simulador iOS aberto..."; \
+	   open -a Simulator; \
+	   printf "==> Aguardando o simulador bootar"; \
+	   until xcrun simctl list devices booted | grep -q Booted; do printf "."; sleep 2; done; echo ""; \
+	 fi
 	@UDID="$(DEVICE)"; \
 	 if [ -z "$$UDID" ]; then \
 	   UDID=`xcrun simctl list devices booted | grep -Eo '[0-9A-Fa-f-]{36}' | head -1`; \
@@ -50,46 +58,45 @@ define run_ios
 endef
 
 # Boota (se preciso) o emulador Android, espera o boot e roda o app nele.
+# Com DEVICE explícito (device já conectado) pula o boot do emulador.
 define run_android
-	@echo "==> Iniciando emulador Android ($(ANDROID_EMULATOR))..."
-	@$(FLUTTER) emulators --launch $(ANDROID_EMULATOR) >/dev/null 2>&1 || true
-	@echo "==> Aguardando o emulador ficar pronto..."
-	@$(ADB) wait-for-device
-	@until [ "`$(ADB) shell getprop sys.boot_completed 2>/dev/null | tr -d '\r'`" = "1" ]; do sleep 2; done
+	@if [ -z "$(DEVICE)" ]; then \
+	   echo "==> Iniciando emulador Android ($(ANDROID_EMULATOR))..."; \
+	   $(FLUTTER) emulators --launch $(ANDROID_EMULATOR) >/dev/null 2>&1 || true; \
+	   echo "==> Aguardando o emulador ficar pronto..."; \
+	   $(ADB) wait-for-device; \
+	   until [ "`$(ADB) shell getprop sys.boot_completed 2>/dev/null | tr -d '\r'`" = "1" ]; do sleep 2; done; \
+	 fi
 	@DEV="$(if $(DEVICE),$(DEVICE),emulator)"; \
 	 echo "==> Rodando em $$DEV"; \
 	 cd $(1) && $(FLUTTER) run -d $$DEV $(FLAVOR_ARGS)
 endef
 
 # ===========================================================================
-# App principal (invest_app)
+# App principal (invest_app) — rodar por ambiente + plataforma
 # ===========================================================================
-
-.PHONY: run run-ios run-android
-run: ## App principal em hml (flutter escolhe/pergunta o device)
-	cd $(APP_DIR) && $(FLUTTER) run $(if $(DEVICE),-d $(DEVICE),) $(FLAVOR_ARGS)
-
-run-ios: ## App principal no simulador iOS (hml)
+# iOS/Android sobem o simulador/emulador via macros run_ios/run_android. O flavor
+# vem de variáveis target-specific (FLAVOR/GALENA_ENV) reavaliadas em FLAVOR_ARGS.
+# DEVICE=<id> é opcional em todos: se omitido, auto-seleciona; se passado,
+# sobrepõe (veja `make devices`). Ex.: make run-hml-ios DEVICE=<id>
+.PHONY: run-hml-ios run-hml-android run-prd-ios run-prd-android
+run-hml-ios: FLAVOR = hml
+run-hml-ios: GALENA_ENV = hml
+run-hml-ios: ## App em HML no simulador iOS (DEVICE=<id> opcional)
 	$(call run_ios,$(APP_DIR))
-
-run-android: ## App principal no emulador Android (hml)
+run-hml-android: FLAVOR = hml
+run-hml-android: GALENA_ENV = hml
+run-hml-android: ## App em HML no emulador Android (DEVICE=<id> opcional)
 	$(call run_android,$(APP_DIR))
 
-# --- Ambientes: HML e PRD (flavor Android / scheme iOS + --dart-define) -------
-.PHONY: run-hml run-hml-ios run-hml-android run-prd run-prd-ios run-prd-android
-run-hml: ## App em HML (device automático)
-	$(MAKE) run FLAVOR=hml GALENA_ENV=hml
-run-hml-ios: ## App em HML no simulador iOS
-	$(MAKE) run-ios FLAVOR=hml GALENA_ENV=hml
-run-hml-android: ## App em HML no emulador Android
-	$(MAKE) run-android FLAVOR=hml GALENA_ENV=hml
-
-run-prd: ## App em PRD (device automático)
-	$(MAKE) run FLAVOR=prd GALENA_ENV=prd
-run-prd-ios: ## App em PRD no simulador iOS
-	$(MAKE) run-ios FLAVOR=prd GALENA_ENV=prd
-run-prd-android: ## App em PRD no emulador Android
-	$(MAKE) run-android FLAVOR=prd GALENA_ENV=prd
+run-prd-ios: FLAVOR = prd
+run-prd-ios: GALENA_ENV = prd
+run-prd-ios: ## App em PRD no simulador iOS (DEVICE=<id> opcional)
+	$(call run_ios,$(APP_DIR))
+run-prd-android: FLAVOR = prd
+run-prd-android: GALENA_ENV = prd
+run-prd-android: ## App em PRD no emulador Android (DEVICE=<id> opcional)
+	$(call run_android,$(APP_DIR))
 
 # ===========================================================================
 # Dependências, qualidade e testes

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "885637391688",
+    "project_id": "galena-cde68",
+    "storage_bucket": "galena-cde68.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885637391688:android:fe02c53265cc37c7973f7d",
+        "android_client_info": {
+          "package_name": "com.galena.investapp.hml"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYpawGVRoJaaffM0ZLRWfUZ6X9tEyGDv4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
